@@ -1,0 +1,321 @@
+\documentclass[aspectratio=149, 10pt, t]{beamer}
+
+\renewcommand{\normalsize}{\fontsize{10.5pt}{13pt}\selectfont}
+
+\input{preamble}
+\usepackage[normalem]{ulem}
+
+% Add separator slide to the beginning of each section ==>
+%% Blue on white:
+%\AtBeginSection[]{%
+%	\begin{frame}[standout, c]{~}
+%		%\vfill
+%		\usebeamerfont{title}%
+%		\textcolor{SpotColor}{\insertsectionhead}
+%		%\vfill
+%	\end{frame}%
+%}
+% White on blue:
+\AtBeginSection[]{{%
+	\setbeamercolor{background canvas}{bg=UBonnBlue, fg=white}%
+	\colorlet{SpotColor}{white}%
+	\begin{frame}[standout, c]{~}
+		%\vfill
+		\usebeamerfont{title}\hypersetup{linkcolor=white}%
+		\insertsection
+		%\vfill
+	\end{frame}%
+	\colorlet{SpotColor}{UBonnBlue}%
+}}
+%% Alternativelyy, add ``Outline'' slide to the beginning of each section ==>
+%\AtBeginSection[]{
+%	\begin{frame}[plain]{Outline}
+%		\tableofcontents[currentsection]
+%	\end{frame}
+%}
+%% <==
+
+\title[La fibre, de zéro en Rézo]{%
+	\textbf{\usebeamerfont{structure}%
+		La fibre : de zéro en Rézo%
+	}%
+}
+
+\subtitle{Un petit tour d'horizon pour n1a en détresse}
+
+%\subtitle{I~Prefer to Avoid Subtitles}
+
+\author{%
+	Hugo Levy-Falk\\
+	% Set the name of the presenting coauthor in boldface:
+	Avec les conseils de Gabriel Detraz
+} % Author(s)
+
+%\institute{%
+%	\inst{a}\,University of Bonn, Germany \and
+%	\inst{b}\,University of Cologne, Germany \and
+%	\inst{c}\,Collaborative Research Center Transregio~224%
+%} % Institution(s)
+
+\date{%
+	Nocturnes FedeRez 2021 \\[\medskipamount]
+	\textmd{20 Novembre 2021}%
+}
+
+
+\begin{document}
+
+\begin{frame}[standout]{~}
+
+	\titlepage%
+
+\end{frame}
+
+
+\begin{frame}[standout]{Outline}
+
+	\medskip
+	\tableofcontents
+
+\end{frame}
+
+\section{Introduction : C'est quoi, et pourquoi on les utilise ?}
+
+\begin{frame}{Un canal de communication}
+    \centering
+    \includegraphics[height=\textheight]{images/une_fibre}
+\end{frame}
+\begin{frame}{Un canal de communication}
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/Excavator_in_Brittany_France.JPG}
+\end{frame}
+
+\begin{frame}{Pour ça ?}
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/pub_fibre.png}
+\end{frame}
+
+\begin{frame}{(Non)}
+    \begin{columns}
+    \begin{column}{0.5\linewidth}
+        \vspace{2.25cm}
+        \begin{minipage}[t]{\linewidth}
+            Le signal électrique se propage à la vitesse du champ électrique dans le conducteur: \alert{$\approx 200 000\;\text{km}/\text{s}$ dans le cuivre}.
+        \end{minipage}
+    \end{column}
+    \begin{column}{0.5\linewidth}
+        \vspace{0.5cm}
+        \begin{minipage}[t]{\linewidth}
+            \includegraphics[width=\linewidth]{images/maxwell.jpeg}
+        \end{minipage}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Mais pourquoi alors ?}
+    \begin{columns}
+    \begin{column}{0.5\linewidth}
+        \medskip
+        \alert{Pour un lien type ADSL}
+        
+        {\footnotesize(\textit{Asymmetric digital subscriber line} : demandez à vos aînés)}
+        \medskip
+        \begin{itemize}
+            \item Sensibilité aux perturbations électromagnétiques;
+            \item Atténuation pour 1km $\approx 13.81dB$ (signal divisé par 24 !)
+        \end{itemize}
+        \medskip
+        \textbf{Conséquence :} Besoin de répétiteurs/correcteurs, débit faible : 23Mbit/s sur 1km.
+    \end{column}
+    \begin{column}{0.5\linewidth}
+        \medskip
+        \alert{Pour une fibre multimode OM2 de chez fs}
+        {\footnotesize (on va voir après ce que c'est)}
+        \medskip
+        \begin{itemize}
+            \item Pas de sensibilité aux perturbations électromagnétiques;
+            \item Atténuation pour 1km $\approx 1dB$ à 1300nm (signal divisé par 1.26 (!!))
+        \end{itemize}
+        $\longrightarrow$ On va pouvoir diminuer les erreurs et le nombre de répétiteurs.
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Mais du coup c'est quoi une fibre ?}
+
+\begin{frame}{Une fibre}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \begin{minipage}[b]{\linewidth}
+                \centering
+                \includegraphics[height=0.38\textheight]{images/fabrication_1}
+                \includegraphics[height=0.38\textheight]{images/fabrication_2}
+
+                {\footnotesize Source : J.Dutton, Ch. 6}
+            \end{minipage}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \begin{minipage}[b]{\linewidth}
+                \centering
+                Loi de Snell-Descartes : $$n_1\sin\theta_1=n_2\sin\theta_2$$
+
+                \includegraphics[height=0.3\textheight]{images/snell_descartes}
+
+                Total Internal Reflection si : $\frac{n_1}{n_2}\sin\theta_1>1$
+
+                \movie[loop]{\includegraphics[width=\linewidth]{videos/frame_rays.png}}{videos/rays_animation.mp4}
+            \end{minipage}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Ah, les modes de chez nous}
+
+\begin{frame}{Une explication simple, qui marche pour les grosses fibres}
+    \begin{columns}
+    \begin{column}{0.5\linewidth}
+            \begin{itemize}
+                \item \movie[loop]{\includegraphics[width=\linewidth]{videos/frame_rays.png}}{videos/rays_animation.mp4}
+                \item \movie[loop]{\includegraphics[width=\linewidth]{videos/frame_plane.png}}{videos/plane_animation.mp4}
+            \end{itemize}
+    \end{column}
+    \begin{column}{0.5\linewidth}
+        \begin{itemize}
+            \item Chaque angle peut-être compris comme un "mode" de transmission.
+            \item Les angles acceptables sont donnés par
+            \begin{equation}
+    N A=n \cdot \sin \left(\alpha_{\operatorname{Max}}\right)=\sqrt{n_{1}^{2}-n_{2}^{2}}
+    \end{equation}
+            \item Chaque "mode" $m$ a un indice de réfraction effectif $n_m=n_1\sin\alpha_m$. $\longrightarrow$ Première idée de dispersion (on y reviendra)
+        \end{itemize}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{La vraie vie est compliquée.}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            Il faut résoudre les équations de Maxwell. On suppose $\boldsymbol{E}(x,z,t)=\boldsymbol{E}(x,t)e^{i\omega t - i\beta z}$
+            \begin{itemize}
+                \item Si on se place en 1D, on a
+                \begin{equation}
+\frac{d^{2} \boldsymbol{E}(x)}{d x^{2}}+n^{2}(x) k_{0}^{2} \boldsymbol{E}(x)=\beta^{2} \boldsymbol{E}(x)
+\end{equation}
+                \item Ce qui se rapproche énormément de l'équation de Schrodinger indépendante du temps !
+                \begin{equation}
+-\frac{\hbar^{2}}{2 m} \frac{d^{2} \psi(x)}{d x^{2}}+V(x) \psi(x)=E \psi(x)
+\end{equation}
+                Avec $V(x)\longrightarrow-n²(x){k_0}^2\hbar^2/2m$
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            Et en pratique, c'est pire... Il faut résoudre en coordonnées cylindriques. 
+            
+            En supposant la séparation des variables ($E_z(r,\phi,z)=\mathcal{R}(r)\mathcal{F}(\phi)\mathcal{Z}(z)$), on a 3 équations qui ressortent :
+            \begin{gather}
+                \frac{\partial^{2} \mathcal{Z}(z)}{\partial z^{2}}=-\beta^{2} \mathcal{Z}(z)\\
+                \frac{\partial^{2} \mathcal{F}(\phi)}{\partial z^{2}}=-m^{2} \mathcal{F}(\phi)\\
+                \nonumber\frac{\partial^{2} \mathcal{R}(r)}{\partial r^{2}}+\frac{1}{r} \frac{\partial \mathcal{R}(r)}{\partial r}+...\\...+\left(n^{2} k_{0}^{2}-\beta^{2}-\frac{m^{2}}{r^{2}}\right) \mathcal{R}(r)=0
+            \end{gather}
+        \end{column}
+    \end{columns}
+\end{frame} 
+
+\begin{frame}{La vraie vie est compliquée. (mais jolie)}
+    Certains modes particuliers sont appelés des modes propres (en pratique on observe une combinaison de ces modes).
+
+     Todo : Plot de quelques modes propres
+    
+    La fréquence de coupure (fréquence limite des modes propagés)
+    
+    $$V=k_0d\sqrt{{n_1}^2-{n_2}^2} = \text{NA}\frac{2\pi}{\lambda}\times d$$
+    
+    Nombre de modes \begin{itemize}
+        \item pour du saut d'indice : $m \approx \frac{V^2}{2}$
+        \item pour du gradient d'indice : $m\approx\frac{V^2}{4}$
+    \end{itemize}
+\end{frame}
+
+\section{Perdez votre signal avec ces techniques secrètes (les informaticiens le détestent)}
+
+\begin{frame}{Les facteurs de perte}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+        \medskip
+        \alert{L'attenuation}
+            
+            Il y a aussi des pertes à cause :\begin{itemize}
+                \item De l'absorption;
+                \item Des courbures macro;
+                \item Des pertes de couplages de fibres;
+                \item Pertes de scattering...
+            \end{itemize}
+            \includegraphics[width=\linewidth]{images/different-types-of-losses-in-optical-fiber.png}
+            {\footnotesize Source : \href{https://community.fs.com/fr/blog/how-to-reduce-various-types-of-losses-in-optical-fiber.html}{community.fs.com}}
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+        \medskip
+        \alert{La dispersion}
+
+            Globalement, tout ce qui va faire qu'un pulse va s'élargir au cours du temps.
+            TODO: refaire cette anim pour que la partie dispersée dure plus longtemps.
+
+            \movie[loop]{\includegraphics[width=\linewidth]{videos/frame_pulses.png}}{videos/pulses_animation.mp4}
+            
+            $\longrightarrow$ C'est un facteur limitant du taux te transfert d'information dans une fibre. 
+
+            \textbf{Il ne suffit pas d'augmenter la puissance d'émission pour le contrer !}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{L'attenuation : absorption (et scattering)}
+    TODO : mettre la source proprement + donner des échelles (genre on peut voir au fond de la fosse des marianes) + mettre les fenêtre télécom
+
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/absorption_fibre.png}
+
+\end{frame}
+
+\begin{frame}{L'attenuation : les autres pertes}
+    TODO : faire une table avec les facteurs de pertes (raccord, bending etc...)
+\end{frame}
+
+\begin{frame}{La dispersion}
+    Remettre la vidéo
+\end{frame}
+
+\begin{frame}{La dispersion: modale}
+
+\end{frame}
+
+\begin{frame}{La dispersion: du matériau}
+    Faire une animation qui montre que le pulse est la somme de plein de couleurs
+\end{frame}
+\begin{frame}{La dispersion: du guide d'onde}
+\end{frame}
+\begin{frame}{La dispersion: des modes de polarisation}
+\end{frame}
+
+
+\section{Des petits noms de fibres}
+
+\begin{frame}{Frame Title}
+-> SFP/SFP+
+
+-> CWDM/DWDM
+    
+\end{frame}
+
+\section{Quelques technologies récentes}
+
+%\begin{frame}{Fibres photoniques}
+%    
+%\end{frame}
+
+\begin{frame}{Le machin pour multiplexer les modes}
+    
+\end{frame}
+
+\end{document}
