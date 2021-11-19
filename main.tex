@@ -4,6 +4,8 @@
 
 \input{preamble}
 \usepackage[normalem]{ulem}
+\usepackage{pstricks}
+\usepackage{pst-barcode}
 
 % Add separator slide to the beginning of each section ==>
 %% Blue on white:
@@ -114,7 +116,7 @@
 
 \begin{frame}{Mais pourquoi alors ?}
     \begin{columns}
-    \begin{column}{0.5\linewidth}
+    \begin{column}{0.5\linewidth}<1->
         \medskip
         \alert{Pour un lien type ADSL}
         
@@ -127,7 +129,7 @@
         \medskip
         \textbf{Conséquence :} Besoin de répétiteurs/correcteurs, débit faible : 23Mbit/s sur 1km.
     \end{column}
-    \begin{column}{0.5\linewidth}
+    \begin{column}{0.5\linewidth}<2->
         \medskip
         \alert{Pour une fibre multimode OM2 de chez fs}
         {\footnotesize (on va voir après ce que c'est)}
@@ -148,10 +150,10 @@
         \begin{column}{0.5\linewidth}
             \begin{minipage}[b]{\linewidth}
                 \centering
-                \includegraphics[height=0.38\textheight]{images/fabrication_1}
-                \includegraphics[height=0.38\textheight]{images/fabrication_2}
+                \includegraphics[height=0.33\textheight]{images/fabrication_1}
+                \includegraphics[height=0.33\textheight]{images/fabrication_2}
 
-                {\footnotesize Source : J.Dutton, Ch. 6}
+                {\footnotesize Source : \href{http://www.freeinfosociety.com/media/pdf/5475.pdf}{H. Dutton, "Understanding Optical Communications", IBM, Ch. 6}}
             \end{minipage}
         \end{column}
         \begin{column}{0.5\linewidth}
@@ -169,7 +171,7 @@
     \end{columns}
 \end{frame}
 
-\section{Ah, les modes de chez nous}
+\section{Victime des modes}
 
 \begin{frame}{Une explication simple, qui marche pour les grosses fibres}
     \begin{columns}
@@ -214,7 +216,7 @@
             En supposant la séparation des variables ($E_z(r,\phi,z)=\mathcal{R}(r)\mathcal{F}(\phi)\mathcal{Z}(z)$), on a 3 équations qui ressortent :
             \begin{gather}
                 \frac{\partial^{2} \mathcal{Z}(z)}{\partial z^{2}}=-\beta^{2} \mathcal{Z}(z)\\
-                \frac{\partial^{2} \mathcal{F}(\phi)}{\partial z^{2}}=-m^{2} \mathcal{F}(\phi)\\
+                \frac{\partial^{2} \mathcal{F}(\phi)}{\partial \phi^{2}}=-m^{2} \mathcal{F}(\phi)\\
                 \nonumber\frac{\partial^{2} \mathcal{R}(r)}{\partial r^{2}}+\frac{1}{r} \frac{\partial \mathcal{R}(r)}{\partial r}+...\\...+\left(n^{2} k_{0}^{2}-\beta^{2}-\frac{m^{2}}{r^{2}}\right) \mathcal{R}(r)=0
             \end{gather}
         \end{column}
@@ -224,8 +226,12 @@
 \begin{frame}{La vraie vie est compliquée. (mais jolie)}
     Certains modes particuliers sont appelés des modes propres (en pratique on observe une combinaison de ces modes).
 
-     Todo : Plot de quelques modes propres
-    
+    \centering
+    \includegraphics[height=0.55\textheight]{images/fiber_modes}
+
+    {\footnotesize Source : \href{https://www.rp-photonics.com/lp_modes.html}{rp-photonics.com}}
+\end{frame}
+\begin{frame}{La vraie vie est compliquée. (mais jolie)}
     La fréquence de coupure (fréquence limite des modes propagés)
     
     $$V=k_0d\sqrt{{n_1}^2-{n_2}^2} = \text{NA}\frac{2\pi}{\lambda}\times d$$
@@ -259,7 +265,6 @@
         \alert{La dispersion}
 
             Globalement, tout ce qui va faire qu'un pulse va s'élargir au cours du temps.
-            TODO: refaire cette anim pour que la partie dispersée dure plus longtemps.
 
             \movie[loop]{\includegraphics[width=\linewidth]{videos/frame_pulses.png}}{videos/pulses_animation.mp4}
             
@@ -271,51 +276,158 @@
 \end{frame}
 
 \begin{frame}{L'attenuation : absorption (et scattering)}
-    TODO : mettre la source proprement + donner des échelles (genre on peut voir au fond de la fosse des marianes) + mettre les fenêtre télécom
 
     \centering
-    \includegraphics[width=0.7\linewidth]{images/absorption_fibre.png}
+    \includegraphics[width=0.5\linewidth]{images/absorption_fibre.png}
 
-\end{frame}
+    \begin{tabular}{cccc}
+        \hline
+        Longueur d'onde & Fibre & Bit rate & Dist. entre répéteurs \\
+        \hline
+        0.85 µm & 55 µm, MM 5dB/km& <50Mb/s & <10km \\
+        1.3 µm & 8 µm, SM 0.4dB/km& <1Gb/s & <200km \\
+        1.55 µm & 8 µm, SM 0.2dB/km& >1Gb/s (WDM)& <400km \\
+    \hline
+    \end{tabular}
 
-\begin{frame}{L'attenuation : les autres pertes}
-    TODO : faire une table avec les facteurs de pertes (raccord, bending etc...)
 \end{frame}
 
 \begin{frame}{La dispersion}
-    Remettre la vidéo
+    \centering
+    \movie[loop]{\includegraphics[width=\linewidth]{videos/frame_pulses.png}}{videos/pulses_animation.mp4}
 \end{frame}
 
 \begin{frame}{La dispersion: modale}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+        \medskip
+        \alert{Inter-modale}
+        \medskip
+            \movie[loop]{\includegraphics[width=\linewidth]{videos/frame_rays2}}{videos/rays_animation2.mp4}
 
+            On peut avoir des fibres à gradient d'indice pour limiter cet effet.
+
+            \includegraphics[width=\linewidth]{images/gradient_index}
+
+        \end{column}
+        \begin{column}{0.5\linewidth}
+        \medskip
+        \alert{Intra-modale}
+        \medskip
+
+        C'est la dispersion dûe au profil de l'indice de réfraction dans le c\oe{}ur et le contour.
+        \vspace{0.25cm}
+
+        \includegraphics[width=\linewidth]{images/modified_dispersion_profile}
+
+        {\footnotesize Source : cours \textit{Fibre Optics Technology} de \href{https://www.imperial.ac.uk/people/s.popov}{Sergei Popov}}
+        
+        \end{column}
+    \end{columns}
 \end{frame}
 
-\begin{frame}{La dispersion: du matériau}
-    Faire une animation qui montre que le pulse est la somme de plein de couleurs
+\begin{frame}{Autres dispersions}
+    \begin{columns}
+        \begin{column}{0.5\linewidth}
+            \medskip
+            \alert{Du matériau}
+            \medskip
+            \includegraphics[width=\linewidth]{images/pulse_shape}
+
+            L'indice de réfraction du matériau n'est pas constant, donc toutes les longueurs d'onde ne se déplacent pas à la même vitesse (différence entre vitesse de groupe et de phase).
+    
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \medskip
+            \vspace{1cm}
+            \alert{En polarisation}
+            \medskip
+            \includegraphics[width=\linewidth]{images/PMD}
+            {\footnotesize Source : cours \textit{Fibre Optics Technology} de \href{https://www.imperial.ac.uk/people/s.popov}{Sergei Popov}}
+
+        \end{column}
+    \end{columns}
 \end{frame}
-\begin{frame}{La dispersion: du guide d'onde}
+
+\begin{frame}{Pourquoi la bande à 1.300µm ?}
+    \centering
+    \includegraphics[width=0.65\linewidth]{images/zero_dispersion_at_1300nm}
+
+    {\footnotesize Source : cours \textit{Fibre Optics Technology} de \href{https://www.imperial.ac.uk/people/s.popov}{Sergei Popov}}
 \end{frame}
-\begin{frame}{La dispersion: des modes de polarisation}
-\end{frame}
 
 
-\section{Des petits noms de fibres}
+\section{Multiplexer pour plus de vitesse}
 
-\begin{frame}{Frame Title}
--> SFP/SFP+
+\begin{frame}{Wavelength Division Multiplexing (WDM)}
+    \centering
+    \includegraphics[width=0.48\linewidth]{images/multiplexacion-por-division}
+    \includegraphics[width=0.48\linewidth]{images/cwdm-dwdm}
 
--> CWDM/DWDM
+    \vspace{0.75cm}
+
+    \begin{tabular}{ccc}
+        \hline
+        CWDM (Coarse WDM) & vs & DWDM (Dense WDM)\\
+        \hline
+        Source laser ou LED & & Source laser + filtre \\
+        Max 160km & & Beaucoup plus \\
+        Moins d'espace et puissance & & Plus : il faut refroidir le laser, filtrer etc. \\
+    \hline
+    \end{tabular}
+
+    {\footnotesize Source : \href{https://community.fs.com/fr/blog/wdm-technology-basis-cwdm-vs-dwdm.html}{community.fs.com}}
     
 \end{frame}
 
-\section{Quelques technologies récentes}
-
-%\begin{frame}{Fibres photoniques}
-%    
-%\end{frame}
-
-\begin{frame}{Le machin pour multiplexer les modes}
+\begin{frame}{Idée : multiplexer les modes de propagation}
+    \begin{columns}[b]
+        \begin{column}{0.5\linewidth}
+            \includegraphics[width=\linewidth]{images/papier_multiplex}
+            \includegraphics[width=\linewidth]{images/mode_multiplex_expl}
+        \end{column}
+        \begin{column}{0.5\linewidth}
+            \centering
+            \includegraphics[width=\linewidth]{images/mode_multiplex_3D}
+            \includegraphics[width=0.7\linewidth]{images/mode_multiplex_photo}
+        \end{column}
+    \end{columns}
     
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion: qu'est-ce qu'il faut retenir}
+    \begin{itemize}
+        \item On utilise les fibres optiques pour limiter le nombre d'intermédiaires pour transporter le signal.
+        \item On doit mitiger deux effets : l'absorption et la dispersion. Pour mitiger la dispersion, on peut utiliser des fibres monomodes, travailler sur des profils d'indice de réfraction particuliers et sur la matériau.
+        \item Il y a différentes technologies de multiplexage disponibles.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusion}
+    \begin{columns}
+        \begin{column}{0.4\linewidth}
+            \vspace{0.3cm}
+            \medskip
+            {\huge Merci pour votre attention !}
+            \medskip
+            \vspace{1cm}
+            \includegraphics[width=\linewidth]{images/alerte_pelleteuse}
+        \end{column}
+        \begin{column}{0.6\linewidth}
+            \centering
+            \vspace{0.2cm}
+            \alert{Je suis une star des réseaux sociaux :}
+            \vspace{0.7cm}
+            \begin{tabular}{rl|rl}
+                \includegraphics[width=0.5cm]{images/twitter} & \href{https://twitter.com/klafyvel}{@klafyvel} & \includegraphics[width=0.5cm]{images/linkedin} & \href{https://www.linkedin.com/in/hugo-levy-falk/}{Hugo Levy-Falk}\\
+                \includegraphics[width=0.5cm]{images/telegram} & @klafyvel & \includegraphics[width=0.5cm]{images/mail} & \href{mailto:hugo@klafyvel.me}{hugo@klafyvel.me}
+            \end{tabular}
+            \includegraphics[width=0.5\linewidth]{images/qrcode}
+            {\footnotesize \href{https://github.com/Klafyvel/Talk-Nocturnes-Federez-Fibres-Optiques}{github.com/Klafyvel/Talk-Nocturnes-Federez-Fibres-Optiques}}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \end{document}
